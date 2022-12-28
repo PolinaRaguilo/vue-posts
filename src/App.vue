@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <h2 class="title" v-show="posts.length">Create Post</h2>
-    <form>
+    <form @submit.prevent>
       <input
         :value="newTitle"
         @input="newTitleHandler"
@@ -11,6 +11,7 @@
       />
       <textarea
         :value="newDescription"
+        @input="newDescriptionHandler"
         class="text-field"
         type="text"
         placeholder="Description"
@@ -54,9 +55,21 @@ export default {
     };
   },
   methods: {
-    createPost() {},
+    createPost() {
+      const newPost = {
+        id: Date.now(),
+        title: this.newTitle,
+        description: this.newDescription,
+      };
+      this.posts.push(newPost);
+      this.newTitle = "";
+      this.newDescription = "";
+    },
     newTitleHandler(event) {
       this.newTitle = event.target.value;
+    },
+    newDescriptionHandler(event) {
+      this.newDescription = event.target.value;
     },
   },
 };
@@ -67,6 +80,7 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .wrapper {
@@ -104,5 +118,6 @@ export default {
   border-radius: 5px;
   font-size: 20px;
   color: rgb(119, 24, 209);
+  cursor: pointer;
 }
 </style>

@@ -1,4 +1,6 @@
 <template>
+  <h2 class="title">Create Post</h2>
+
   <form @submit.prevent>
     <input
       v-model="post.title"
@@ -62,5 +64,10 @@ export default {
   font-size: 20px;
   color: rgb(119, 24, 209);
   cursor: pointer;
+}
+
+.title {
+  padding-top: 15px;
+  text-align: center;
 }
 </style>

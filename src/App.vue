@@ -1,8 +1,6 @@
 <template>
   <div class="wrapper">
-    <h2 class="title">Create Post</h2>
     <PostForm @create="createPost" />
-    <h2 class="title" v-show="posts.length">Posts</h2>
     <PostList :posts="posts" />
   </div>
 </template>
@@ -44,12 +42,6 @@ export default {
     createPost(post) {
       this.posts.push(post);
     },
-    newTitleHandler(event) {
-      this.newTitle = event.target.value;
-    },
-    newDescriptionHandler(event) {
-      this.newDescription = event.target.value;
-    },
   },
 };
 </script>
@@ -65,10 +57,5 @@ export default {
 .wrapper {
   max-width: 50%;
   margin: 0 auto;
-}
-
-.title {
-  padding-top: 15px;
-  text-align: center;
 }
 </style>

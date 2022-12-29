@@ -1,8 +1,11 @@
 <template>
-  <h2 class="title" v-show="posts.length">Posts</h2>
-  <div v-for="post in posts" :key="post.id">
-    <PostItem @delete="$emit('delete', post)" :post="post" />
+  <div v-if="posts.length">
+    <h2 class="title">Posts</h2>
+    <div v-for="post in posts" :key="post.id">
+      <PostItem @delete="$emit('delete', post)" :post="post" />
+    </div>
   </div>
+  <h2 v-else class="title no-posts">No posts :(</h2>
 </template>
 
 <script>
@@ -24,5 +27,9 @@ export default {
 .title {
   padding-top: 15px;
   text-align: center;
+}
+
+.no-posts {
+  color: rgb(139, 39, 185);
 }
 </style>

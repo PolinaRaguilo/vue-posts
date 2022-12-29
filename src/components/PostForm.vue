@@ -46,8 +46,7 @@ export default {
 <style scoped>
 .text-field {
   display: block;
-  width: 40%;
-  max-width: 40%;
+  width: 100%;
   margin: 0 auto;
   margin-top: 20px;
   padding: 10px;
@@ -62,7 +61,6 @@ export default {
 }
 
 .title {
-  padding-top: 15px;
   text-align: center;
 }
 </style>

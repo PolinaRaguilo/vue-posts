@@ -1,8 +1,14 @@
 <template>
   <div class="wrapper">
-    <PostForm @create="createPost" />
+    <h2 class="title">All your posts in ine place</h2>
+    <custom-button class="button" @click="openModal"
+      >Create new post</custom-button
+    >
     <PostList @delete="deletePost" :posts="posts" />
   </div>
+  <custom-modal v-model:show="showModal">
+    <PostForm @create="createPost" />
+  </custom-modal>
 </template>
 
 <script>
@@ -36,14 +42,19 @@ export default {
             "LEGO has lots of fans around the globe. And a product that people can easily get creative with. For Pride Month they asked people to create something that reflects pride. From all of the pictures they received, they chose a few highlights to share with everyone on Facebook.",
         },
       ],
+      showModal: false,
     };
   },
   methods: {
     createPost(post) {
       this.posts.push(post);
+      this.showModal = false;
     },
     deletePost(post) {
       this.posts = this.posts.filter((item) => item.id !== post.id);
+    },
+    openModal() {
+      this.showModal = true;
     },
   },
 };
@@ -56,9 +67,23 @@ export default {
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
 }
+</style>
 
+<style scoped>
 .wrapper {
   max-width: 50%;
   margin: 0 auto;
+}
+
+.title {
+  padding-top: 20px;
+  text-align: center;
+}
+
+.button {
+  border: 2px solid darkmagenta;
+  color: darkmagenta;
+  margin: 0 auto;
+  margin-top: 10px;
 }
 </style>

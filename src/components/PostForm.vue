@@ -14,7 +14,7 @@
       type="text"
       placeholder="Description"
     />
-    <button @click="createPost" class="add-button">Add</button>
+    <custom-button @click="createPost" class="add-button">Add</custom-button>
   </form>
 </template>
 
@@ -57,13 +57,8 @@ export default {
   display: block;
   margin: 0 auto;
   margin-top: 10px;
-  padding: 5px 30px;
-  background-color: transparent;
   border: 1px solid rgb(119, 24, 209);
-  border-radius: 5px;
-  font-size: 20px;
   color: rgb(119, 24, 209);
-  cursor: pointer;
 }
 
 .title {

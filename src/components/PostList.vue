@@ -1,7 +1,7 @@
 <template>
   <h2 class="title" v-show="posts.length">Posts</h2>
   <div v-for="post in posts" :key="post.id">
-    <PostItem :post="post" />
+    <PostItem @delete="$emit('delete', post)" :post="post" />
   </div>
 </template>
 

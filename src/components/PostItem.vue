@@ -5,7 +5,9 @@
       <p><strong>Description: </strong> {{ post.description }}</p>
     </div>
     <div class="btns-wrapper">
-      <custom-button class="remove-button">Remove</custom-button>
+      <custom-button class="remove-button" @click="$emit('delete', post)"
+        >Remove</custom-button
+      >
       <custom-button class="edit-button">Edit</custom-button>
     </div>
   </div>
@@ -29,6 +31,7 @@ export default {
   margin-top: 15px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 }
 .btns-wrapper {
   padding-left: 15px;

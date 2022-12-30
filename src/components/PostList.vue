@@ -1,6 +1,5 @@
 <template>
   <div v-if="posts.length">
-    <h2 class="title">Posts</h2>
     <div v-for="post in posts" :key="post.id">
       <PostItem @delete="$emit('delete', post)" :post="post" />
     </div>

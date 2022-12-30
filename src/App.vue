@@ -4,6 +4,11 @@
     <custom-button class="button" @click="openModal"
       >Create new post</custom-button
     >
+    <h2 class="title">Posts</h2>
+    <div class="select-wrapper">
+      <custom-select v-model="selectedFilter" :options="sortOptions" />
+    </div>
+
     <PostList @delete="deletePost" :posts="posts" />
   </div>
   <p v-else class="loading">Loading...</p>
@@ -27,6 +32,11 @@ export default {
       posts: [],
       showModal: false,
       isPostsLoading: false,
+      selectedFilter: "",
+      sortOptions: [
+        { value: "title", name: "By title" },
+        { value: "description", name: "By description" },
+      ],
     };
   },
   methods: {
@@ -63,6 +73,13 @@ export default {
   mounted() {
     this.getPosts();
   },
+  watch: {
+    selectedFilter(newValue) {
+      this.posts.sort((post1, post2) => {
+        return post1[newValue].localeCompare(post2[newValue]);
+      });
+    },
+  },
 };
 </script>
 
@@ -98,5 +115,10 @@ export default {
   padding: 30px 0;
   color: rgb(231, 135, 103);
   font-weight: bold;
+}
+
+.select-wrapper {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

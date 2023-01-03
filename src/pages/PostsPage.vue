@@ -1,5 +1,5 @@
 <template>
-  <h2 class="title">All your posts in ine place</h2>
+  <h2 class="title">All your posts in one place</h2>
   <div class="wrapper" v-if="!isPostsLoading">
     <custom-button class="button" @click="openModal">Create new post</custom-button>
     <h2 class="title">Posts</h2>

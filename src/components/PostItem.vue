@@ -5,8 +5,9 @@
       <p><strong>Description: </strong> {{ post.description }}</p>
     </div>
     <div class="btns-wrapper">
-      <custom-button class="remove-button" @click="$emit('delete', post)"
-        >Remove</custom-button
+      <custom-button class="remove-button" @click="$emit('delete', post)">Remove</custom-button>
+      <custom-button class="read-button" @click="$router.push(`/posts/${post.id}`)"
+        >Open</custom-button
       >
       <custom-button class="edit-button">Edit</custom-button>
     </div>
@@ -46,5 +47,11 @@ export default {
   width: 100%;
   border: 1px solid rgb(3, 119, 29);
   color: rgb(3, 119, 29);
+}
+.read-button {
+  margin-top: 10px;
+  width: 100%;
+  border: 1px solid rgb(0, 174, 180);
+  color: rgb(0, 174, 180);
 }
 </style>

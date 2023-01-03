@@ -2,18 +2,8 @@
   <h2 class="title">Create Post</h2>
 
   <form @submit.prevent>
-    <input
-      v-model="post.title"
-      class="text-field"
-      type="text"
-      placeholder="Title"
-    />
-    <textarea
-      v-model="post.description"
-      class="text-field"
-      type="text"
-      placeholder="Description"
-    />
+    <input v-model="post.title" class="text-field" type="text" placeholder="Title" />
+    <textarea v-model="post.description" class="text-field" type="text" placeholder="Description" />
     <custom-button @click="createPost" class="add-button">Add</custom-button>
   </form>
 </template>
@@ -23,20 +13,20 @@ export default {
   data() {
     return {
       post: {
-        title: "",
-        description: "",
+        title: '',
+        description: '',
       },
     };
   },
   methods: {
     createPost() {
-      this.$emit("create", {
+      this.$emit('create', {
         ...this.post,
         id: Date.now(),
       });
       this.post = {
-        title: "",
-        description: "",
+        title: '',
+        description: '',
       };
     },
   },

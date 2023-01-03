@@ -12,6 +12,11 @@
     </div>
 
     <PostList @delete="deletePost" :posts="sortedAndSearch" />
+    <CustomPagintation
+      :totalPages="this.totalPages"
+      :currentPage="page"
+      @change-page="changePage"
+    />
   </div>
   <p v-else class="loading">Loading...</p>
   <custom-modal v-model:show="showModal">
@@ -22,12 +27,14 @@
 <script>
 import PostForm from './components/PostForm.vue';
 import PostList from './components/PostList.vue';
+import CustomPagintation from './components/UI/CustomPagintation.vue';
 import axios from 'axios';
 
 export default {
   components: {
     PostList,
     PostForm,
+    CustomPagintation,
   },
   data() {
     return {
@@ -79,9 +86,17 @@ export default {
     clearSearchQuery() {
       this.searchQuery = '';
     },
+    changePage(currentPage) {
+      this.page = currentPage;
+    },
   },
   mounted() {
     this.getPosts();
+  },
+  watch: {
+    page() {
+      this.getPosts();
+    },
   },
   computed: {
     sortedPosts() {

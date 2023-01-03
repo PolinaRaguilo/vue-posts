@@ -1,15 +1,17 @@
 <template>
   <h2 class="title">All your posts in ine place</h2>
   <div class="wrapper" v-if="!isPostsLoading">
-    <custom-button class="button" @click="openModal"
-      >Create new post</custom-button
-    >
+    <custom-button class="button" @click="openModal">Create new post</custom-button>
     <h2 class="title">Posts</h2>
-    <div class="select-wrapper">
+    <div class="flex-wrapper">
+      <div class="search-wrapper">
+        <input class="search-input" v-model="searchQuery" placeholder="Search..." />
+        <div @click="clearSearchQuery" v-show="searchQuery.length">x</div>
+      </div>
       <custom-select v-model="selectedFilter" :options="sortOptions" />
     </div>
 
-    <PostList @delete="deletePost" :posts="posts" />
+    <PostList @delete="deletePost" :posts="sortedAndSearch" />
   </div>
   <p v-else class="loading">Loading...</p>
   <custom-modal v-model:show="showModal">
@@ -18,9 +20,9 @@
 </template>
 
 <script>
-import PostForm from "./components/PostForm.vue";
-import PostList from "./components/PostList.vue";
-import axios from "axios";
+import PostForm from './components/PostForm.vue';
+import PostList from './components/PostList.vue';
+import axios from 'axios';
 
 export default {
   components: {
@@ -32,10 +34,14 @@ export default {
       posts: [],
       showModal: false,
       isPostsLoading: false,
-      selectedFilter: "",
+      selectedFilter: '',
+      searchQuery: '',
+      page: 1,
+      limit: 10,
+      totalPages: 0,
       sortOptions: [
-        { value: "title", name: "By title" },
-        { value: "description", name: "By description" },
+        { value: 'title', name: 'By title' },
+        { value: 'description', name: 'By description' },
       ],
     };
   },
@@ -54,7 +60,7 @@ export default {
       try {
         this.isPostsLoading = true;
         const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/posts?_limit=10"
+          `https://jsonplaceholder.typicode.com/posts?_limit=${this.limit}&_page=${this.page}`
         );
         const newPosts = response.data.map((post) => {
           return {
@@ -63,21 +69,31 @@ export default {
             description: post.body,
           };
         });
+        this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit);
         this.posts = newPosts;
         this.isPostsLoading = false;
       } catch {
-        console.log("Error!");
+        console.log('Error!');
       }
+    },
+    clearSearchQuery() {
+      this.searchQuery = '';
     },
   },
   mounted() {
     this.getPosts();
   },
-  watch: {
-    selectedFilter(newValue) {
-      this.posts.sort((post1, post2) => {
-        return post1[newValue].localeCompare(post2[newValue]);
+  computed: {
+    sortedPosts() {
+      return [...this.posts].sort((post1, post2) => {
+        return post1[this.selectedFilter]?.localeCompare(post2[this.selectedFilter]);
       });
+    },
+
+    sortedAndSearch() {
+      return this.sortedPosts.filter((post) =>
+        post.title.toLowerCase().includes(this.searchQuery.toLowerCase())
+      );
     },
   },
 };
@@ -117,8 +133,23 @@ export default {
   font-weight: bold;
 }
 
-.select-wrapper {
+.flex-wrapper {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+}
+
+.search-wrapper {
+  position: relative;
+}
+
+.search-input {
+  padding: 7px;
+}
+
+.search-wrapper > div {
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  cursor: pointer;
 }
 </style>

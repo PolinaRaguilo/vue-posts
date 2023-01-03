@@ -12,13 +12,17 @@
     </div>
 
     <PostList @delete="deletePost" :posts="sortedAndSearch" />
-    <CustomPagintation
+
+    <!-- FYI: Pagination with numbers -->
+    <!-- <CustomPagintation
       :totalPages="this.totalPages"
       :currentPage="page"
       @change-page="changePage"
-    />
+    /> -->
   </div>
   <p v-else class="loading">Loading...</p>
+  <div ref="observer" class="g" />
+
   <custom-modal v-model:show="showModal">
     <PostForm @create="createPost" />
   </custom-modal>
@@ -27,14 +31,14 @@
 <script>
 import PostForm from './components/PostForm.vue';
 import PostList from './components/PostList.vue';
-import CustomPagintation from './components/UI/CustomPagintation.vue';
+// import CustomPagintation from './components/UI/CustomPagintation.vue';
 import axios from 'axios';
 
 export default {
   components: {
     PostList,
     PostForm,
-    CustomPagintation,
+    // CustomPagintation,
   },
   data() {
     return {
@@ -83,20 +87,54 @@ export default {
         console.log('Error!');
       }
     },
+    async infiniteGetPosts() {
+      try {
+        this.page += 1;
+        const response = await axios.get(
+          `https://jsonplaceholder.typicode.com/posts?_limit=${this.limit}&_page=${this.page}`
+        );
+        const newPosts = response.data.map((post) => {
+          return {
+            id: post.id,
+            title: post.title,
+            description: post.body,
+          };
+        });
+        this.totalPages = Math.ceil(response.headers['x-total-count'] / this.limit);
+        this.posts = [...this.posts, ...newPosts];
+      } catch {
+        console.log('Error!');
+      }
+    },
     clearSearchQuery() {
       this.searchQuery = '';
     },
-    changePage(currentPage) {
-      this.page = currentPage;
-    },
+    // FYI: For the Pagination with numbers
+    // changePage(currentPage) {
+    //   this.page = currentPage;
+    // },
   },
   mounted() {
     this.getPosts();
+    const options = {
+      rootMargin: '0px',
+      threshold: 1.0,
+    };
+
+    const observerCallback = (entries) => {
+      if (entries[0].isIntersecting && this.page < this.totalPages) {
+        this.infiniteGetPosts();
+      }
+    };
+    const observer = new IntersectionObserver(observerCallback, options);
+    observer.observe(this.$refs.observer);
+    console.log(this.$refs.observer);
   },
   watch: {
-    page() {
-      this.getPosts();
-    },
+    // FYI: For the Pagination with numbers
+    // page() {
+    //   this.getPosts();
+    // },
   },
   computed: {
     sortedPosts() {
@@ -124,6 +162,9 @@ export default {
 </style>
 
 <style scoped>
+.g {
+  height: 50px;
+}
 .wrapper {
   max-width: 50%;
   margin: 0 auto;

@@ -9,7 +9,6 @@
       <custom-button class="read-button" @click="$router.push(`/posts/${post.id}`)"
         >Open</custom-button
       >
-      <custom-button class="edit-button">Edit</custom-button>
     </div>
   </div>
 </template>
@@ -42,12 +41,7 @@ export default {
   border: 1px solid rgb(207, 44, 44);
   color: rgb(207, 44, 44);
 }
-.edit-button {
-  margin-top: 10px;
-  width: 100%;
-  border: 1px solid rgb(3, 119, 29);
-  color: rgb(3, 119, 29);
-}
+
 .read-button {
   margin-top: 10px;
   width: 100%;

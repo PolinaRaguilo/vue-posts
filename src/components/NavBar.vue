@@ -3,6 +3,9 @@
     <p @click="$router.push('/')" class="title">Blog</p>
     <div class="btns-wrapper">
       <custom-button @click="$router.push('/posts')" class="button_margin">Posts</custom-button>
+      <custom-button @click="$router.push('/store-posts')" class="button_margin"
+        >Posts with store</custom-button
+      >
       <custom-button @click="$router.push('/about')">About</custom-button>
     </div>
   </div>

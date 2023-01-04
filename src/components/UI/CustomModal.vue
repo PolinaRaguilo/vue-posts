@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  name: "custom-modal",
+  name: 'custom-modal',
   props: {
     show: {
       type: Boolean,
@@ -17,7 +17,7 @@ export default {
   },
   methods: {
     hideModal() {
-      this.$emit("update:show", false);
+      this.$emit('update:show', false);
     },
   },
 };

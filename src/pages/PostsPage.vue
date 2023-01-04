@@ -21,9 +21,9 @@
       /> -->
   </div>
   <p v-else class="loading">Loading...</p>
-  <div ref="observer" class="g" />
+  <div v-intersection="infiniteGetPosts" ref="observer" class="g" />
 
-  <custom-modal v-model:show="showModal">
+  <custom-modal v-if="showModal" v-model:show="showModal">
     <PostForm @create="createPost" />
   </custom-modal>
 </template>
@@ -116,18 +116,6 @@ export default {
   },
   mounted() {
     this.getPosts();
-    const options = {
-      rootMargin: '0px',
-      threshold: 1.0,
-    };
-
-    const observerCallback = (entries) => {
-      if (entries[0].isIntersecting && this.page < this.totalPages) {
-        this.infiniteGetPosts();
-      }
-    };
-    const observer = new IntersectionObserver(observerCallback, options);
-    observer.observe(this.$refs.observer);
   },
   watch: {
     // FYI: For the Pagination with numbers

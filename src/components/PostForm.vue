@@ -2,7 +2,7 @@
   <h2 class="title">Create Post</h2>
 
   <form @submit.prevent>
-    <input v-model="post.title" class="text-field" type="text" placeholder="Title" />
+    <input v-focus v-model="post.title" class="text-field" type="text" placeholder="Title" />
     <textarea v-model="post.description" class="text-field" type="text" placeholder="Description" />
     <custom-button @click="createPost" class="add-button">Add</custom-button>
   </form>
